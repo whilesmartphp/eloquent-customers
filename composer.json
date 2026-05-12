@@ -3,6 +3,7 @@
     "description": "Polymorphic customer management for Laravel applications.",
     "type": "library",
     "license": "MIT",
+    "package-version": "1.0.0",
     "authors": [
         { "name": "Whilesmart Team" }
     ],
