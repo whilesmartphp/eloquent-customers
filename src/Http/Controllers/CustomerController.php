@@ -9,24 +9,27 @@ use Whilesmart\Customers\Http\Requests\StoreCustomerRequest;
 use Whilesmart\Customers\Http\Requests\UpdateCustomerRequest;
 use Whilesmart\Customers\Http\Resources\CustomerResource;
 use Whilesmart\Customers\Models\Customer;
+use Whilesmart\OwnerAccess\Concerns\AuthorizesOwnerController;
 
 class CustomerController extends Controller
 {
+    use AuthorizesOwnerController;
+
     public function index(Request $request): JsonResponse
     {
-        $query = Customer::query();
+        $query = $this->scopeAccessibleOwners(Customer::query(), $request->user());
 
         if ($request->filled('owner_type') && $request->filled('owner_id')) {
             $query->where('owner_type', $request->input('owner_type'))
-                  ->where('owner_id', $request->input('owner_id'));
+                ->where('owner_id', $request->input('owner_id'));
         }
 
         if ($request->filled('q')) {
-            $term = $request->input('q');
+            $term = '%'.strtolower($request->input('q')).'%';
             $query->where(function ($q) use ($term) {
-                $q->where('name', 'ilike', "%{$term}%")
-                  ->orWhere('email', 'ilike', "%{$term}%")
-                  ->orWhere('company_name', 'ilike', "%{$term}%");
+                $q->whereRaw('lower(name) like ?', [$term])
+                    ->orWhereRaw('lower(email) like ?', [$term])
+                    ->orWhereRaw('lower(company_name) like ?', [$term]);
             });
         }
 
@@ -49,8 +52,10 @@ class CustomerController extends Controller
         ], 201);
     }
 
-    public function show(Customer $customer): JsonResponse
+    public function show(Request $request, Customer $customer): JsonResponse
     {
+        $this->authorizeAccessTo($customer, $request->user());
+
         return response()->json([
             'success' => true,
             'data' => new CustomerResource($customer),
@@ -59,6 +64,7 @@ class CustomerController extends Controller
 
     public function update(UpdateCustomerRequest $request, Customer $customer): JsonResponse
     {
+        $this->authorizeAccessTo($customer, $request->user());
         $customer->update($request->validated());
 
         return response()->json([
@@ -67,8 +73,9 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function destroy(Customer $customer): JsonResponse
+    public function destroy(Request $request, Customer $customer): JsonResponse
     {
+        $this->authorizeAccessTo($customer, $request->user());
         $customer->delete();
 
         return response()->json([
