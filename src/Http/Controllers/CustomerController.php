@@ -21,15 +21,15 @@ class CustomerController extends Controller
 
         if ($request->filled('owner_type') && $request->filled('owner_id')) {
             $query->where('owner_type', $request->input('owner_type'))
-                  ->where('owner_id', $request->input('owner_id'));
+                ->where('owner_id', $request->input('owner_id'));
         }
 
         if ($request->filled('q')) {
             $term = '%'.strtolower($request->input('q')).'%';
             $query->where(function ($q) use ($term) {
                 $q->whereRaw('lower(name) like ?', [$term])
-                  ->orWhereRaw('lower(email) like ?', [$term])
-                  ->orWhereRaw('lower(company_name) like ?', [$term]);
+                    ->orWhereRaw('lower(email) like ?', [$term])
+                    ->orWhereRaw('lower(company_name) like ?', [$term]);
             });
         }
 
