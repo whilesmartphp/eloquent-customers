@@ -3,6 +3,8 @@
 namespace Whilesmart\Customers\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
+use Whilesmart\Customers\Enums\CustomerType;
 use Whilesmart\OwnerAccess\Concerns\AuthorizesOwnerRequest;
 
 class UpdateCustomerRequest extends FormRequest
@@ -18,7 +20,7 @@ class UpdateCustomerRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'string', 'max:200'],
-            'type' => ['nullable', 'string', 'in:individual,organization'],
+            'type' => ['nullable', new Enum(CustomerType::class)],
             'email' => ['nullable', 'email', 'max:200'],
             'phone' => ['nullable', 'string', 'max:50'],
             'tax_id' => ['nullable', 'string', 'max:60'],

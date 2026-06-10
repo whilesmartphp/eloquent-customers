@@ -3,6 +3,8 @@
 namespace Whilesmart\Customers\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
+use Whilesmart\Customers\Enums\CustomerType;
 use Whilesmart\OwnerAccess\Concerns\AuthorizesOwnerRequest;
 
 class StoreCustomerRequest extends FormRequest
@@ -20,7 +22,7 @@ class StoreCustomerRequest extends FormRequest
             'owner_type' => ['required', 'string'],
             'owner_id' => ['required'],
             'name' => ['required', 'string', 'max:200'],
-            'type' => ['nullable', 'string', 'in:individual,organization'],
+            'type' => ['nullable', new Enum(CustomerType::class)],
             'email' => ['nullable', 'email', 'max:200'],
             'phone' => ['nullable', 'string', 'max:50'],
             'tax_id' => ['nullable', 'string', 'max:60'],
