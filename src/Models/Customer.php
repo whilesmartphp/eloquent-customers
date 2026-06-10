@@ -6,15 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Whilesmart\Contacts\Traits\HasContacts;
 use Whilesmart\Customers\Database\Factories\CustomerFactory;
+use Whilesmart\Customers\Enums\CustomerType;
 
 class Customer extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasContacts, HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
 
+    protected $attributes = [
+        'type' => 'individual',
+    ];
+
     protected $casts = [
+        'type' => CustomerType::class,
         'is_active' => 'boolean',
         'metadata' => 'array',
     ];
