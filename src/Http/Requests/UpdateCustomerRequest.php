@@ -3,12 +3,15 @@
 namespace Whilesmart\Customers\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Whilesmart\OwnerAccess\Concerns\AuthorizesOwnerRequest;
 
 class UpdateCustomerRequest extends FormRequest
 {
+    use AuthorizesOwnerRequest;
+
     public function authorize(): bool
     {
-        return true;
+        return $this->authorizeOwnerOfBoundModel('customer');
     }
 
     public function rules(): array
