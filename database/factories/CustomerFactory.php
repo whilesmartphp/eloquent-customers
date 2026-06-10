@@ -13,9 +13,9 @@ class CustomerFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'type' => 'individual',
             'email' => $this->faker->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
-            'company_name' => $this->faker->company(),
             'tax_id' => $this->faker->numerify('TAX-########'),
             'billing_address' => $this->faker->address(),
             'currency' => 'USD',
