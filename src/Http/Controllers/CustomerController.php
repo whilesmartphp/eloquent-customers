@@ -28,8 +28,7 @@ class CustomerController extends Controller
             $term = '%'.strtolower($request->input('q')).'%';
             $query->where(function ($q) use ($term) {
                 $q->whereRaw('lower(name) like ?', [$term])
-                    ->orWhereRaw('lower(email) like ?', [$term])
-                    ->orWhereRaw('lower(company_name) like ?', [$term]);
+                    ->orWhereRaw('lower(email) like ?', [$term]);
             });
         }
 

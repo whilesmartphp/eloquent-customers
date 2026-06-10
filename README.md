@@ -49,7 +49,8 @@ $workspace->customers()->create([
 | id | bigint |
 | owner_type / owner_id | morphs |
 | name | string |
-| email, phone, company_name, tax_id, website | nullable strings |
+| type | individual / organization (default individual) |
+| email, phone, tax_id, website | nullable strings |
 | billing_address, shipping_address, notes | text |
 | currency | char(3) |
 | is_active | boolean |

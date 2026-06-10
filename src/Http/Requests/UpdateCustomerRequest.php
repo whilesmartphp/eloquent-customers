@@ -18,9 +18,9 @@ class UpdateCustomerRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'string', 'max:200'],
+            'type' => ['nullable', 'string', 'in:individual,organization'],
             'email' => ['nullable', 'email', 'max:200'],
             'phone' => ['nullable', 'string', 'max:50'],
-            'company_name' => ['nullable', 'string', 'max:200'],
             'tax_id' => ['nullable', 'string', 'max:60'],
             'website' => ['nullable', 'url', 'max:200'],
             'billing_address' => ['nullable', 'string'],
