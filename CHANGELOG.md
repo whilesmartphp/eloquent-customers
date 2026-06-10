@@ -1,3 +1,6 @@
+## [2.0.1] - 2026-06-11
+- Require the released owner-access ^1.0 (was a dev branch)
+
 ## [2.0.0] - 2026-06-10
 - BREAKING: removed `company_name`; `name` is the canonical display name for both individuals and organizations
 - Added a `type` field (`individual` / `organization`), defaulting to `individual`
